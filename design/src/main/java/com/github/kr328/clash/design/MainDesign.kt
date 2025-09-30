@@ -49,6 +49,13 @@ class MainDesign(context: Context) : Design<MainDesign.Request>(context) {
         }
     }
 
+    suspend fun setHeaderInfo(title: String?, subtitle: String?) {
+        withContext(Dispatchers.Main) {
+            binding.headerTitle = title
+            binding.headerSubtitle = subtitle
+        }
+    }
+
     suspend fun setMode(mode: TunnelState.Mode) {
         withContext(Dispatchers.Main) {
             binding.mode = when (mode) {
@@ -83,6 +90,8 @@ class MainDesign(context: Context) : Design<MainDesign.Request>(context) {
 
         binding.colorClashStarted = context.resolveThemedColor(com.google.android.material.R.attr.colorPrimary)
         binding.colorClashStopped = context.resolveThemedColor(R.attr.colorClashStopped)
+        binding.headerTitle = null
+        binding.headerSubtitle = null
     }
 
     fun request(request: Request) {

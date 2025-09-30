@@ -64,3 +64,5 @@ google-services.json
 
 # MacOS
 .DS_Store
+# IDE local history
+.history/

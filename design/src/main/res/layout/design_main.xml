@@ -18,6 +18,12 @@
             name="profileName"
             type="String" />
         <variable
+            name="headerTitle"
+            type="String" />
+        <variable
+            name="headerSubtitle"
+            type="String" />
+        <variable
             name="colorClashStarted"
             type="int" />
         <variable
@@ -70,11 +76,26 @@
                             android:background="@drawable/ic_clash" />
                     </FrameLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/application_name"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{headerTitle != null ? headerTitle : @string/application_name}'
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text='@{headerSubtitle}'
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                            android:visibility='@{headerSubtitle != null ? View.VISIBLE : View.GONE}' />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <com.github.kr328.clash.design.view.LargeActionCard

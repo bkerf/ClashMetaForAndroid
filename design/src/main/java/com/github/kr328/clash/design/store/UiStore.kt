@@ -19,6 +19,11 @@ class UiStore(context: Context) {
         defaultValue = true
     )
 
+    var autoStartClash: Boolean by store.boolean(
+        key = "auto_start_clash",
+        defaultValue = false
+    )
+
     var darkMode: DarkMode by store.enum(
         key = "dark_mode",
         defaultValue = DarkMode.Auto,

@@ -10,6 +10,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
+import com.github.kr328.clash.core.bridge.*
+import com.github.kr328.clash.core.model.Proxy
+import com.github.kr328.clash.core.model.ProxySort
+import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.MainDesign
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.service.StatusProvider
@@ -17,25 +21,37 @@ import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash
 import com.github.kr328.clash.util.withProfile
-import com.github.kr328.clash.core.bridge.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import com.github.kr328.clash.design.R
+import com.github.kr328.clash.service.remote.IClashManager
 
 class MainActivity : BaseActivity<MainDesign>() {
+    private var userInitiatedStop = false
+
     override suspend fun main() {
         val design = MainDesign(this)
 
         setContentDesign(design)
 
-        design.fetch()
+        val autoStartPreference = uiStore.autoStartClash || StatusProvider.shouldStartClashOnBoot
 
-        if (!clashRunning && StatusProvider.shouldStartClashOnBoot) {
-            design.startClash()
+        uiStore.autoStartClash = autoStartPreference
+        StatusProvider.shouldStartClashOnBoot = autoStartPreference
+
+        if (!clashRunning && autoStartPreference) {
+            val started = design.startClash()
+
+            if (!started) {
+                uiStore.autoStartClash = false
+                StatusProvider.shouldStartClashOnBoot = false
+            }
         }
+
+        design.fetch()
 
         val ticker = ticker(TimeUnit.SECONDS.toMillis(1))
 
@@ -45,18 +61,44 @@ class MainActivity : BaseActivity<MainDesign>() {
                     when (it) {
                         Event.ActivityStart,
                         Event.ServiceRecreated,
-                        Event.ClashStop, Event.ClashStart,
-                        Event.ProfileLoaded, Event.ProfileChanged -> design.fetch()
+                        Event.ProfileLoaded,
+                        Event.ProfileChanged -> design.fetch()
+                        Event.ClashStart -> {
+                            userInitiatedStop = false
+                            uiStore.autoStartClash = true
+                            StatusProvider.shouldStartClashOnBoot = true
+
+                            design.fetch()
+                        }
+                        Event.ClashStop -> {
+                            if (userInitiatedStop) {
+                                userInitiatedStop = false
+                            } else {
+                                StatusProvider.shouldStartClashOnBoot = uiStore.autoStartClash
+                            }
+
+                            design.fetch()
+                        }
                         else -> Unit
                     }
                 }
                 design.requests.onReceive {
                     when (it) {
                         MainDesign.Request.ToggleStatus -> {
-                            if (clashRunning)
+                            if (clashRunning) {
+                                userInitiatedStop = true
+                                uiStore.autoStartClash = false
+                                StatusProvider.shouldStartClashOnBoot = false
+
                                 stopClashService()
-                            else
-                                design.startClash()
+                            } else {
+                                val started = design.startClash()
+
+                                if (started) {
+                                    uiStore.autoStartClash = true
+                                    StatusProvider.shouldStartClashOnBoot = true
+                                }
+                            }
                         }
                         MainDesign.Request.OpenProxy ->
                             startActivity(ProxyActivity::class.intent)
@@ -97,7 +139,9 @@ class MainActivity : BaseActivity<MainDesign>() {
         val providers = withClash {
             queryProviders()
         }
+        val proxyDisplay = if (clashRunning) fetchPrimaryProxyDisplay(state.mode) else null
 
+        setHeaderInfo(proxyDisplay?.title, proxyDisplay?.subtitle)
         setMode(state.mode)
         setHasProviders(providers.isNotEmpty())
 
@@ -112,7 +156,7 @@ class MainActivity : BaseActivity<MainDesign>() {
         }
     }
 
-    private suspend fun MainDesign.startClash() {
+    private suspend fun MainDesign.startClash(): Boolean {
         val active = withProfile { queryActive() }
 
         if (active == null || !active.imported) {
@@ -122,25 +166,102 @@ class MainActivity : BaseActivity<MainDesign>() {
                 }
             }
 
-            return
+            return false
         }
 
-        val vpnRequest = startClashService()
+        return try {
+            val vpnRequest = startClashService()
 
-        try {
             if (vpnRequest != null) {
                 val result = startActivityForResult(
                     ActivityResultContracts.StartActivityForResult(),
                     vpnRequest
                 )
 
-                if (result.resultCode == RESULT_OK)
+                if (result.resultCode == RESULT_OK) {
                     startClashService()
+                    true
+                } else {
+                    false
+                }
+            } else {
+                true
             }
         } catch (e: Exception) {
             design?.showToast(R.string.unable_to_start_vpn, ToastDuration.Long)
+            false
         }
     }
+
+    private suspend fun fetchPrimaryProxyDisplay(mode: TunnelState.Mode): ProxyDisplayInfo? {
+        return try {
+            withClash {
+                queryPrimaryProxy(
+                    preferredGroup = uiStore.proxyLastGroup.takeIf { it.isNotBlank() },
+                    mode = mode,
+                    excludeNotSelectable = uiStore.proxyExcludeNotSelectable
+                )
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private suspend fun IClashManager.queryPrimaryProxy(
+        preferredGroup: String?,
+        mode: TunnelState.Mode,
+        excludeNotSelectable: Boolean
+    ): ProxyDisplayInfo? {
+        val names = runCatching { queryProxyGroupNames(excludeNotSelectable) }.getOrElse { return null }
+        if (names.isEmpty()) return null
+
+        val prioritized = buildPriorityList(names, preferredGroup, mode)
+        val visited = mutableSetOf<String>()
+
+        for (name in prioritized) {
+            if (!names.contains(name) || !visited.add(name)) continue
+
+            val group = runCatching { queryProxyGroup(name, ProxySort.Default) }.getOrNull() ?: continue
+            if (group.type != Proxy.Type.Selector) continue
+            if (group.now.isBlank()) continue
+
+            val selected = group.proxies.find { it.name == group.now }
+            val title = selected?.title?.takeIf { it.isNotBlank() } ?: group.now
+            val subtitle = selected?.subtitle?.takeIf { it.isNotBlank() } ?: selected?.type?.name
+
+            return ProxyDisplayInfo(title, subtitle)
+        }
+
+        return null
+    }
+
+    private fun buildPriorityList(
+        names: List<String>,
+        preferredGroup: String?,
+        mode: TunnelState.Mode
+    ): List<String> {
+        val priority = mutableListOf<String>()
+
+        preferredGroup?.takeIf { names.contains(it) }?.let(priority::add)
+
+        val modeKeywords = when (mode) {
+            TunnelState.Mode.Global -> listOf("global")
+            TunnelState.Mode.Direct -> listOf("direct")
+            TunnelState.Mode.Rule -> listOf("proxy", "select", "节点", "節點", "选择", "選擇")
+            TunnelState.Mode.Script -> emptyList()
+        }
+
+        for (keyword in modeKeywords) {
+            names.firstOrNull { it.equals(keyword, ignoreCase = true) }?.let(priority::add)
+            names.firstOrNull { it.contains(keyword, ignoreCase = true) }?.let(priority::add)
+        }
+
+        priority.addAll(names)
+
+        return priority
+    }
+
+    private data class ProxyDisplayInfo(val title: String, val subtitle: String?)
 
     private suspend fun queryAppVersionName(): String {
         return withContext(Dispatchers.IO) {
