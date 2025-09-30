@@ -13,10 +13,13 @@ import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.core.bridge.*
 import com.github.kr328.clash.core.model.Proxy
 import com.github.kr328.clash.core.model.ProxySort
+import com.github.kr328.clash.core.model.ProxyGroup
 import com.github.kr328.clash.core.model.TunnelState
 import com.github.kr328.clash.design.MainDesign
 import com.github.kr328.clash.design.ui.ToastDuration
 import com.github.kr328.clash.service.StatusProvider
+import com.github.kr328.clash.service.model.AutoSwitchConfig
+import com.github.kr328.clash.service.store.AutoSwitchStore
 import com.github.kr328.clash.util.startClashService
 import com.github.kr328.clash.util.stopClashService
 import com.github.kr328.clash.util.withClash
@@ -30,6 +33,7 @@ import com.github.kr328.clash.design.R
 import com.github.kr328.clash.service.remote.IClashManager
 
 class MainActivity : BaseActivity<MainDesign>() {
+    private val autoSwitchStore by lazy { AutoSwitchStore(this) }
     private var userInitiatedStop = false
 
     override suspend fun main() {
@@ -63,6 +67,7 @@ class MainActivity : BaseActivity<MainDesign>() {
                         Event.ServiceRecreated,
                         Event.ProfileLoaded,
                         Event.ProfileChanged -> design.fetch()
+                        Event.AutoSwitchUpdated -> design.fetch()
                         Event.ClashStart -> {
                             userInitiatedStop = false
                             uiStore.autoStartClash = true
@@ -115,6 +120,8 @@ class MainActivity : BaseActivity<MainDesign>() {
                         }
                         MainDesign.Request.OpenSettings ->
                             startActivity(SettingsActivity::class.intent)
+                        MainDesign.Request.OpenAutoSwitch ->
+                            startActivity(AutoSwitchActivity::class.intent)
                         MainDesign.Request.OpenHelp ->
                             startActivity(HelpActivity::class.intent)
                         MainDesign.Request.OpenAbout ->
@@ -139,11 +146,26 @@ class MainActivity : BaseActivity<MainDesign>() {
         val providers = withClash {
             queryProviders()
         }
-        val proxyDisplay = if (clashRunning) fetchPrimaryProxyDisplay(state.mode) else null
+        val autoSwitchConfig = autoSwitchStore.snapshot()
+        val autoSwitchGroup = if (clashRunning && autoSwitchConfig.enabled && autoSwitchConfig.targetGroup.isNotBlank()) {
+            runCatching {
+                withClash { queryProxyGroup(autoSwitchConfig.targetGroup, ProxySort.Default) }
+            }.getOrNull()
+        } else null
+    val autoSwitchDisplay = autoSwitchGroup?.toDisplayInfo(autoSwitchConfig.targetGroup)
+        val proxyDisplay = when {
+            autoSwitchDisplay != null -> autoSwitchDisplay
+            clashRunning -> fetchPrimaryProxyDisplay(state.mode)
+            else -> null
+        }
 
         setHeaderInfo(proxyDisplay?.title, proxyDisplay?.subtitle)
         setMode(state.mode)
         setHasProviders(providers.isNotEmpty())
+        setAutoSwitchStatus(
+            autoSwitchConfig.enabled,
+            buildAutoSwitchSummary(autoSwitchConfig, autoSwitchGroup)
+        )
 
         withProfile {
             setProfileName(queryActive()?.name)
@@ -191,6 +213,57 @@ class MainActivity : BaseActivity<MainDesign>() {
             design?.showToast(R.string.unable_to_start_vpn, ToastDuration.Long)
             false
         }
+    }
+
+    private fun buildAutoSwitchSummary(config: AutoSwitchConfig, group: ProxyGroup?): String {
+        if (!config.enabled) {
+            return getString(R.string.auto_switch_status_disabled)
+        }
+
+        return if (config.candidates.isEmpty()) {
+            val base = getString(R.string.auto_switch_status_enabled_no_candidates, config.targetGroup)
+            val currentStatus = group?.let { buildCurrentStatus(config, it) }
+            if (currentStatus != null) "$base · $currentStatus" else base
+        } else {
+            val base = getString(
+                R.string.auto_switch_status_enabled,
+                config.targetGroup,
+                config.candidates.size,
+                config.probeIntervalSeconds.coerceAtLeast(15)
+            )
+            val currentStatus = group?.let { buildCurrentStatus(config, it) }
+            if (currentStatus != null) "$base · $currentStatus" else base
+        }
+    }
+
+    private fun buildCurrentStatus(config: AutoSwitchConfig, group: ProxyGroup): String {
+        val currentName = group.now.takeIf { it.isNotBlank() }
+        val displayName = currentName?.let { name ->
+            group.proxies.find { it.name == name }?.let(::displayName) ?: name
+        }
+
+        return when {
+            currentName == null -> getString(R.string.auto_switch_status_current_none)
+            config.candidates.contains(currentName) ->
+                getString(R.string.auto_switch_status_current_allowed, displayName ?: currentName)
+            else ->
+                getString(R.string.auto_switch_status_current_blocked, displayName ?: currentName)
+        }
+    }
+
+    private fun displayName(proxy: Proxy): String {
+        return proxy.title.takeIf { it.isNotBlank() } ?: proxy.name
+    }
+
+    private fun ProxyGroup.toDisplayInfo(groupName: String): ProxyDisplayInfo? {
+        val currentName = now.takeIf { it.isNotBlank() } ?: return null
+        val selected = proxies.find { it.name == currentName }
+        val title = selected?.title?.takeIf { it.isNotBlank() } ?: currentName
+        val subtitle = selected?.subtitle?.takeIf { it.isNotBlank() }
+            ?: selected?.type?.name
+            ?: groupName.takeIf { it.isNotBlank() }
+
+        return ProxyDisplayInfo(title, subtitle)
     }
 
     private suspend fun fetchPrimaryProxyDisplay(mode: TunnelState.Mode): ProxyDisplayInfo? {

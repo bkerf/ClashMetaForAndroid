@@ -180,6 +180,9 @@ abstract class BaseActivity<D : Design<*>> : AppCompatActivity(),
             }
         }
     }
+    override fun onAutoSwitchUpdated() {
+        events.trySend(Event.AutoSwitchUpdated)
+    }
 
     private fun queryDayNight(config: Configuration = resources.configuration): DayNight {
         return when (uiStore.darkMode) {
@@ -223,5 +226,6 @@ abstract class BaseActivity<D : Design<*>> : AppCompatActivity(),
         ProfileChanged,
         ProfileUpdateCompleted,
         ProfileUpdateFailed,
+        AutoSwitchUpdated,
     }
 }

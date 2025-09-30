@@ -21,6 +21,7 @@ class MainDesign(context: Context) : Design<MainDesign.Request>(context) {
         OpenProviders,
         OpenLogs,
         OpenSettings,
+        OpenAutoSwitch,
         OpenHelp,
         OpenAbout,
     }
@@ -73,6 +74,13 @@ class MainDesign(context: Context) : Design<MainDesign.Request>(context) {
         }
     }
 
+    suspend fun setAutoSwitchStatus(enabled: Boolean, summary: String) {
+        withContext(Dispatchers.Main) {
+            binding.autoSwitchEnabled = enabled
+            binding.autoSwitchSummary = summary
+        }
+    }
+
     suspend fun showAbout(versionName: String) {
         withContext(Dispatchers.Main) {
             val binding = DesignAboutBinding.inflate(context.layoutInflater).apply {
@@ -92,6 +100,10 @@ class MainDesign(context: Context) : Design<MainDesign.Request>(context) {
         binding.colorClashStopped = context.resolveThemedColor(R.attr.colorClashStopped)
         binding.headerTitle = null
         binding.headerSubtitle = null
+        binding.autoSwitchEnabled = false
+        binding.autoSwitchSummary = context.getString(R.string.auto_switch_status_disabled)
+        binding.colorAutoSwitchEnabled = context.resolveThemedColor(com.google.android.material.R.attr.colorSecondary)
+        binding.colorAutoSwitchDisabled = context.resolveThemedColor(com.google.android.material.R.attr.colorSurface)
     }
 
     fun request(request: Request) {

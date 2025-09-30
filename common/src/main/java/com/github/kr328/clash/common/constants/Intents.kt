@@ -23,8 +23,15 @@ object Intents {
     val ACTION_PROFILE_SCHEDULE_UPDATES = "$packageName.intent.action.SCHEDULE_UPDATES"
     val ACTION_PROFILE_LOADED = "$packageName.intent.action.PROFILE_LOADED"
     val ACTION_OVERRIDE_CHANGED = "$packageName.intent.action.OVERRIDE_CHANGED"
+    val ACTION_AUTO_SWITCH_UPDATED = "$packageName.intent.action.AUTO_SWITCH_UPDATED"
 
     const val EXTRA_STOP_REASON = "stop_reason"
     const val EXTRA_UUID = "uuid"
     const val EXTRA_FAIL_REASON = "fail_reason"
+    const val EXTRA_AUTO_SWITCH_UPDATE_SOURCE = "auto_switch_update_source"
+
+    object AutoSwitchUpdateSource {
+        const val CONFIG = "config"
+        const val STATUS = "status"
+    }
 }

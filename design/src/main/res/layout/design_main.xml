@@ -32,6 +32,18 @@
         <variable
             name="hasProviders"
             type="boolean" />
+        <variable
+            name="autoSwitchEnabled"
+            type="boolean" />
+        <variable
+            name="autoSwitchSummary"
+            type="String" />
+        <variable
+            name="colorAutoSwitchEnabled"
+            type="int" />
+        <variable
+            name="colorAutoSwitchDisabled"
+            type="int" />
 
         <import type="android.view.View" />
         <import type="com.github.kr328.clash.design.MainDesign.Request" />
@@ -108,6 +120,17 @@
                     app:icon="@{clashRunning ? @drawable/ic_outline_check_circle : @drawable/ic_outline_not_interested}"
                     app:subtext="@{clashRunning ? @string/format_traffic_forwarded(forwarded) : @string/tap_to_start}"
                     app:text="@{clashRunning ? @string/running : @string/stopped}" />
+
+                <com.github.kr328.clash.design.view.LargeActionCard
+                    android:id="@+id/auto_switch_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/main_card_margin_vertical"
+                    android:onClick="@{() -> self.request(Request.OpenAutoSwitch)}"
+                    app:cardBackgroundColor="@{autoSwitchEnabled ? colorAutoSwitchEnabled : colorAutoSwitchDisabled}"
+                    app:icon="@drawable/ic_outline_update"
+                    app:subtext="@{autoSwitchSummary}"
+                    app:text="@string/auto_switch_title" />
 
                 <com.github.kr328.clash.design.view.LargeActionCard
                     android:layout_width="match_parent"

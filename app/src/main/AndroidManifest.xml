@@ -143,6 +143,11 @@
             android:exported="false"
             android:label="@string/settings" />
         <activity
+            android:name=".AutoSwitchActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:label="@string/auto_switch_title" />
+        <activity
             android:name=".NetworkSettingsActivity"
             android:configChanges="uiMode"
             android:exported="false"

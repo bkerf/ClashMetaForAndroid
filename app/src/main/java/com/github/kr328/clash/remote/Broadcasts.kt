@@ -19,6 +19,7 @@ class Broadcasts(private val context: Application) {
         fun onProfileUpdateCompleted(uuid: UUID?)
         fun onProfileUpdateFailed(uuid: UUID?, reason: String?)
         fun onProfileLoaded()
+        fun onAutoSwitchUpdated() {}
     }
 
     var clashRunning: Boolean = false
@@ -72,6 +73,11 @@ class Broadcasts(private val context: Application) {
                         it.onProfileLoaded()
                     }
                 }
+                Intents.ACTION_AUTO_SWITCH_UPDATED -> {
+                    receivers.forEach {
+                        it.onAutoSwitchUpdated()
+                    }
+                }
             }
         }
     }
@@ -97,6 +103,7 @@ class Broadcasts(private val context: Application) {
                 addAction(Intents.ACTION_PROFILE_UPDATE_COMPLETED)
                 addAction(Intents.ACTION_PROFILE_UPDATE_FAILED)
                 addAction(Intents.ACTION_PROFILE_LOADED)
+                addAction(Intents.ACTION_AUTO_SWITCH_UPDATED)
             })
 
             clashRunning = StatusClient(context).currentProfile() != null

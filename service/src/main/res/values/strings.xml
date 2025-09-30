@@ -18,4 +18,20 @@
     <string name="provider_files">Provider Files</string>
     <string name="profile_updater">Profile Updater</string>
     <string name="profile_updating">Profile Updating</string>
+    <string name="auto_switch_status_runtime_waiting_group">Waiting for target group selection</string>
+    <string name="auto_switch_status_runtime_disabled">Auto-switch disabled</string>
+    <string name="auto_switch_status_runtime_waiting_candidates">Waiting for candidate selection in %1$s</string>
+    <string name="auto_switch_status_runtime_missing_candidates">Configured candidates not found in %1$s. Available: %2$s</string>
+    <string name="auto_switch_status_runtime_already_optimal">Already using %2$s in %1$s</string>
+    <string name="auto_switch_status_runtime_switch_applied">Switched %1$s → %2$s (%3$s)</string>
+    <string name="auto_switch_status_runtime_switch_forced">Forced switch for %1$s → %2$s (%3$s) because %4$s is outside the candidate list</string>
+    <string name="auto_switch_status_runtime_skip_cooldown">Cooldown active for %1$s, keeping %2$s (%3$d s left)</string>
+    <string name="auto_switch_status_runtime_skip_no_improvement">No improvement detected for %1$s; keeping %2$s</string>
+    <string name="auto_switch_status_runtime_apply_failed">Failed to apply %1$s → %2$s</string>
+    <string name="auto_switch_status_runtime_error">Auto-switch error: %1$s</string>
+    <string name="auto_switch_status_runtime_confirm_failed">Switch to %2$s in %1$s did not stick; still %3$s</string>
+    <string name="auto_switch_status_runtime_delay_ms">%1$d ms</string>
+    <string name="auto_switch_status_runtime_delay_timeout">timeout</string>
+    <string name="auto_switch_status_runtime_delay_unknown">unknown</string>
+    <string name="auto_switch_status_runtime_unknown_proxy">unknown</string>
 </resources>

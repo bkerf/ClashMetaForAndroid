@@ -48,6 +48,13 @@ fun Context.sendOverrideChanged() {
     sendBroadcastSelf(intent)
 }
 
+fun Context.sendAutoSwitchUpdated(source: String = Intents.AutoSwitchUpdateSource.CONFIG) {
+    val intent = Intent(Intents.ACTION_AUTO_SWITCH_UPDATED)
+        .putExtra(Intents.EXTRA_AUTO_SWITCH_UPDATE_SOURCE, source)
+
+    sendBroadcastSelf(intent)
+}
+
 fun Context.sendServiceRecreated() {
     sendBroadcastSelf(Intent(Intents.ACTION_SERVICE_RECREATED))
 }

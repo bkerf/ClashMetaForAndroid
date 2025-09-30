@@ -16,4 +16,20 @@
     <string name="profile_updating">配置更新中</string>
     <string name="profile_service_status">配置文件服务状态</string>
     <string name="profile_process_result">配置文件处理结果</string>
+    <string name="auto_switch_status_runtime_waiting_group">等待选择目标策略组</string>
+    <string name="auto_switch_status_runtime_disabled">自动切换已关闭</string>
+    <string name="auto_switch_status_runtime_waiting_candidates">等待 %1$s 选择候选节点</string>
+    <string name="auto_switch_status_runtime_missing_candidates">%1$s 中找不到已选候选，当前可用：%2$s</string>
+    <string name="auto_switch_status_runtime_already_optimal">%1$s 已使用 %2$s</string>
+    <string name="auto_switch_status_runtime_switch_applied">%1$s → %2$s（%3$s）</string>
+    <string name="auto_switch_status_runtime_switch_forced">%1$s → %2$s（%3$s），因为 %4$s 不在候选范围内</string>
+    <string name="auto_switch_status_runtime_skip_cooldown">%1$s 冷却中，保持 %2$s（剩余 %3$d 秒）</string>
+    <string name="auto_switch_status_runtime_skip_no_improvement">%1$s 无更优节点，保持 %2$s</string>
+    <string name="auto_switch_status_runtime_apply_failed">%1$s → %2$s 切换失败</string>
+    <string name="auto_switch_status_runtime_error">自动切换错误：%1$s</string>
+    <string name="auto_switch_status_runtime_confirm_failed">尝试将 %1$s 切换到 %2$s 未生效，仍是 %3$s</string>
+    <string name="auto_switch_status_runtime_delay_ms">%1$d 毫秒</string>
+    <string name="auto_switch_status_runtime_delay_timeout">超时</string>
+    <string name="auto_switch_status_runtime_delay_unknown">未知</string>
+    <string name="auto_switch_status_runtime_unknown_proxy">未知</string>
 </resources>

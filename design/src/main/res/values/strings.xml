@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PluralsCandidate">
     <string name="launch_name_meta">Clash Meta</string>
-    <string name="launch_name_alpha">Clash Meta Alpha</string>
+    <string name="launch_name_alpha">智能玩家工具</string>
     <string name="application_name_meta">Clash Meta for Android</string>
-    <string name="application_name_alpha">Clash Meta for Android Alpha</string>
+    <string name="application_name_alpha">智能玩家工具</string>
 
     <string name="stopped">Stopped</string>
     <string name="tap_to_start">Tap to start</string>
@@ -344,4 +344,43 @@
 
     <string name="hide_app_icon_title">Hide App Icon</string>
     <string name="hide_app_icon_desc">You can dial *#*#252746382#*#* to open this App</string>
+
+    <string name="auto_switch_title">Auto Switch</string>
+    <string name="auto_switch_enable">Enable auto switching</string>
+    <string name="auto_switch_enable_hint">Automatically probe your favourite nodes and switch whenever the current one becomes unstable.</string>
+    <string name="auto_switch_group_hint">Target selector group</string>
+    <string name="auto_switch_interval_hint">Probe interval (seconds)</string>
+    <string name="auto_switch_cooldown_hint">Minimum switch interval (seconds)</string>
+    <string name="auto_switch_prefer_stable">Prefer only nodes with valid latency</string>
+    <string name="auto_switch_candidates_title">Candidate nodes</string>
+    <string name="auto_switch_select_all">Select all</string>
+    <string name="auto_switch_clear_all">Clear</string>
+    <string name="auto_switch_empty">No nodes available in this group</string>
+    <string name="auto_switch_saved">Auto switch preferences updated</string>
+    <string name="auto_switch_no_groups">No proxy groups available. Load a profile first.</string>
+    <string name="auto_switch_load_groups_failed">Unable to load proxy groups</string>
+    <string name="auto_switch_group_not_selector">The chosen group does not support switching</string>
+    <string name="auto_switch_load_group_failed">Failed to load proxies for the selected group</string>
+    <string name="auto_switch_latency_testing">Testing latency…</string>
+    <string name="auto_switch_latency_success">Latency updated at %1$s</string>
+    <string name="auto_switch_latency_failed">Latency test failed</string>
+    <string name="auto_switch_latency_refresh">Test again</string>
+    <string name="auto_switch_latency_format_ms">%1$d ms</string>
+    <string name="auto_switch_latency_unavailable">No data</string>
+    <string name="auto_switch_latency_timeout">Timeout</string>
+    <string name="auto_switch_candidate_with_latency">%1$s · %2$s</string>
+    <string name="auto_switch_latency_quality_fast">Fast</string>
+    <string name="auto_switch_latency_quality_moderate">Moderate</string>
+    <string name="auto_switch_latency_quality_slow">Slow</string>
+    <string name="auto_switch_latency_quality_timeout">Offline</string>
+    <string name="auto_switch_latency_quality_unknown">Unknown</string>
+    <string name="auto_switch_latency_quality_format">%1$s · %2$s</string>
+    <string name="auto_switch_status_disabled">Disabled</string>
+    <string name="auto_switch_status_enabled">Enabled · %1$s · %2$d candidates · %3$d s probe</string>
+    <string name="auto_switch_status_enabled_no_candidates">Enabled · %1$s · Select at least one candidate</string>
+    <string name="auto_switch_runtime_status_format">Last update %1$s · %2$s</string>
+    <string name="auto_switch_runtime_status_time_unknown">--:--</string>
+    <string name="auto_switch_status_current_allowed">Current %1$s (within selection)</string>
+    <string name="auto_switch_status_current_blocked">Current %1$s (outside selection)</string>
+    <string name="auto_switch_status_current_none">Current proxy unavailable</string>
 </resources>

@@ -132,10 +132,16 @@ subprojects {
                         keystore.inputStream().use(this::load)
                     }
 
-                    storeFile = rootProject.file("release.keystore")
-                    storePassword = prop.getProperty("keystore.password")!!
-                    keyAlias = prop.getProperty("key.alias")!!
-                    keyPassword = prop.getProperty("key.password")!!
+                    val keystorePath = prop.getProperty("keystore.path")
+                        ?: error("keystore.path is missing in signing.properties")
+
+                    storeFile = rootProject.file(keystorePath)
+                    storePassword = prop.getProperty("keystore.password")
+                        ?: error("keystore.password is missing in signing.properties")
+                    keyAlias = prop.getProperty("key.alias")
+                        ?: error("key.alias is missing in signing.properties")
+                    keyPassword = prop.getProperty("key.password")
+                        ?: error("key.password is missing in signing.properties")
                 }
             }
         }
