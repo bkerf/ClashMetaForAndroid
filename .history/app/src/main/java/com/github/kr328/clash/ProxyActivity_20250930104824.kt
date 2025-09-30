@@ -108,11 +108,8 @@ class ProxyActivity : BaseActivity<ProxyDesign>() {
                             design.showModeSwitchTips()
 
                             withClash {
-                                val sessionOverride = queryOverride(Clash.OverrideSlot.Session)
-                                val desiredSessionMode = it.mode
-
-                                if (sessionOverride.mode != desiredSessionMode) {
-                                    sessionOverride.mode = desiredSessionMode
+                                val sessionOverride = queryOverride(Clash.OverrideSlot.Session).apply {
+                                    mode = it.mode
                                 }
 
                                 patchOverride(Clash.OverrideSlot.Session, sessionOverride)
