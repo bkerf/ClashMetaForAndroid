@@ -1,0 +1,343 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Meta Debug APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "assembleMetaDebug"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Alpha Debug APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "assembleAlphaDebug"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Meta Release APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "assembleMetaRelease"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Alpha Release APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "assembleAlphaRelease"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Clean Project",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Meta Debug APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "installMetaDebug"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Install Alpha Debug APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "installAlphaDebug"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Install Meta Release APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "installMetaRelease"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Install Alpha Release APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "installAlphaRelease"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Uninstall All APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "uninstallAll"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Download Geo Files",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "downloadGeoFiles"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                }
+            },
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build and Install Meta Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Meta Debug APK",
+                "Install Meta Debug APK"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build and Install Alpha Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Alpha Debug APK",
+                "Install Alpha Debug APK"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch App on Device",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "shell",
+                "am",
+                "start",
+                "-n",
+                "com.github.metacubex.clash/.MainActivity"
+            ],
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "Build, Install and Launch Meta Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Meta Debug APK",
+                "Install Meta Debug APK",
+                "Launch App on Device"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build, Install and Launch Alpha Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Alpha Debug APK",
+                "Install Alpha Debug APK",
+                "Launch App on Device"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "ADB Logcat",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "logcat",
+                "-v",
+                "time",
+                "*:V"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "ADB Logcat (Filter ClashMeta)",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "logcat",
+                "-v",
+                "time",
+                "ClashMeta:V",
+                "*:S"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "List Connected Devices",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "devices",
+                "-l"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        }
+    ]
+}

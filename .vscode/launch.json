@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Launch Meta Debug",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/meta/debug/app-meta-debug.apk",
+            "adbPort": 5037,
+            "preLaunchTask": "Build and Install Meta Debug"
+        },
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Launch Alpha Debug",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/alpha/debug/app-alpha-debug.apk",
+            "adbPort": 5037,
+            "preLaunchTask": "Build and Install Alpha Debug"
+        },
+        {
+            "type": "android",
+            "request": "attach",
+            "name": "Attach to Android Process",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "adbPort": 5037,
+            "processId": "${command:PickAndroidProcess}"
+        }
+    ]
+}
