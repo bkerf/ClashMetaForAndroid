@@ -13,11 +13,11 @@ val golangSource = file("src/main/golang/native")
 
 golang {
     sourceSets {
-        create("alpha") {
+        create("debug") {
             tags.set(listOf("foss","with_gvisor","cmfa"))
             srcDir.set(file("src/foss/golang"))
         }
-        create("meta") {
+        create("release") {
             tags.set(listOf("foss","with_gvisor","cmfa"))
             srcDir.set(file("src/foss/golang"))
         }
@@ -29,14 +29,11 @@ golang {
 }
 
 android {
-    productFlavors {
-        all {
-            externalNativeBuild {
-                cmake {
-                    arguments("-DGO_SOURCE:STRING=${golangSource}")
-                    arguments("-DGO_OUTPUT:STRING=${GolangPlugin.outputDirOf(project, null, null)}")
-                    arguments("-DFLAVOR_NAME:STRING=$name")
-                }
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                arguments("-DGO_SOURCE:STRING=${golangSource}")
+                arguments("-DGO_OUTPUT:STRING=${GolangPlugin.outputDirOf(project, null, null)}")
             }
         }
     }

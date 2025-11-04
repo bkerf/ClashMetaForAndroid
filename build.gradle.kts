@@ -52,6 +52,11 @@ subprojects {
             resValue("string", "release_name", "v$versionName")
             resValue("integer", "release_code", "$versionCode")
 
+            buildConfigField("boolean", "PREMIUM", "Boolean.parseBoolean(\"false\")")
+
+            resValue("string", "launch_name", "@string/launch_name_meta")
+            resValue("string", "application_name", "@string/application_name_meta")
+
             ndk {
                 abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
             }
@@ -81,45 +86,8 @@ subprojects {
             }
         }
 
-        productFlavors {
-            flavorDimensions("feature")
-
-            create("alpha") {
-                isDefault = true
-                dimension = flavorDimensionList[0]
-                versionNameSuffix = ".Alpha"
-
-                buildConfigField("boolean", "PREMIUM", "Boolean.parseBoolean(\"false\")")
-
-                resValue("string", "launch_name", "@string/launch_name_alpha")
-                resValue("string", "application_name", "@string/application_name_alpha")
-
-                if (isApp) {
-                    applicationIdSuffix = ".alpha"
-                }
-            }
-
-            create("meta") {
-
-                dimension = flavorDimensionList[0]
-                versionNameSuffix = ".Meta"
-
-                buildConfigField("boolean", "PREMIUM", "Boolean.parseBoolean(\"false\")")
-
-                resValue("string", "launch_name", "@string/launch_name_meta")
-                resValue("string", "application_name", "@string/application_name_meta")
-
-                if (isApp) {
-                    applicationIdSuffix = ".meta"
-                }
-            }
-        }
-
         sourceSets {
-            getByName("meta") {
-                java.srcDirs("src/foss/java")
-            }
-            getByName("alpha") {
+            getByName("main") {
                 java.srcDirs("src/foss/java")
             }
         }

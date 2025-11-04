@@ -2,18 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Meta Debug APK",
+            "label": "Build Debug APK",
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "windows": {
                 "command": "${workspaceFolder}\\gradlew.bat"
             },
             "args": [
-                "assembleMetaDebug"
+                "assembleDebug"
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
             "group": {
@@ -27,18 +27,18 @@
             }
         },
         {
-            "label": "Build Alpha Debug APK",
+            "label": "Build Release APK",
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "windows": {
                 "command": "${workspaceFolder}\\gradlew.bat"
             },
             "args": [
-                "assembleAlphaDebug"
+                "assembleRelease"
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
             "group": "build",
@@ -49,21 +49,21 @@
             }
         },
         {
-            "label": "Build Meta Release APK",
+            "label": "Install Debug APK",
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "windows": {
                 "command": "${workspaceFolder}\\gradlew.bat"
             },
             "args": [
-                "assembleMetaRelease"
+                "installDebug"
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
-            "group": "build",
+            "group": "test",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -71,21 +71,21 @@
             }
         },
         {
-            "label": "Build Alpha Release APK",
+            "label": "Install Release APK",
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "windows": {
                 "command": "${workspaceFolder}\\gradlew.bat"
             },
             "args": [
-                "assembleAlphaRelease"
+                "installRelease"
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
-            "group": "build",
+            "group": "test",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -104,117 +104,34 @@
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
             "group": "build",
             "problemMatcher": []
         },
         {
-            "label": "Install Meta Debug APK",
+            "label": "Rebuild Project",
             "type": "shell",
             "command": "${workspaceFolder}/gradlew",
             "windows": {
                 "command": "${workspaceFolder}\\gradlew.bat"
             },
             "args": [
-                "installMetaDebug"
+                "clean",
+                "assembleDebug"
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
-            "group": "test",
+            "group": "build",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
             }
-        },
-        {
-            "label": "Install Alpha Debug APK",
-            "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
-            "windows": {
-                "command": "${workspaceFolder}\\gradlew.bat"
-            },
-            "args": [
-                "installAlphaDebug"
-            ],
-            "options": {
-                "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
-                }
-            },
-            "group": "test",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Install Meta Release APK",
-            "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
-            "windows": {
-                "command": "${workspaceFolder}\\gradlew.bat"
-            },
-            "args": [
-                "installMetaRelease"
-            ],
-            "options": {
-                "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
-                }
-            },
-            "group": "test",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Install Alpha Release APK",
-            "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
-            "windows": {
-                "command": "${workspaceFolder}\\gradlew.bat"
-            },
-            "args": [
-                "installAlphaRelease"
-            ],
-            "options": {
-                "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
-                }
-            },
-            "group": "test",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Uninstall All APK",
-            "type": "shell",
-            "command": "${workspaceFolder}/gradlew",
-            "windows": {
-                "command": "${workspaceFolder}\\gradlew.bat"
-            },
-            "args": [
-                "uninstallAll"
-            ],
-            "options": {
-                "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
-                }
-            },
-            "group": "test",
-            "problemMatcher": []
         },
         {
             "label": "Download Geo Files",
@@ -228,28 +145,46 @@
             ],
             "options": {
                 "env": {
-                    "JAVA_HOME": "E:\\Program Files\\Android\\Android Studio\\jbr"
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
                 }
             },
             "group": "none",
             "problemMatcher": []
         },
         {
-            "label": "Build and Install Meta Debug",
+            "label": "Uninstall APK",
+            "type": "shell",
+            "command": "${workspaceFolder}/gradlew",
+            "windows": {
+                "command": "${workspaceFolder}\\gradlew.bat"
+            },
+            "args": [
+                "uninstallAll"
+            ],
+            "options": {
+                "env": {
+                    "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.9.10-hotspot"
+                }
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build and Install Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build Meta Debug APK",
-                "Install Meta Debug APK"
+                "Build Debug APK",
+                "Install Debug APK"
             ],
             "group": "test",
             "problemMatcher": []
         },
         {
-            "label": "Build and Install Alpha Debug",
+            "label": "Build and Install Release",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build Alpha Debug APK",
-                "Install Alpha Debug APK"
+                "Build Release APK",
+                "Install Release APK"
             ],
             "group": "test",
             "problemMatcher": []
@@ -272,25 +207,17 @@
             }
         },
         {
-            "label": "Build, Install and Launch Meta Debug",
+            "label": "Build, Install and Launch Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build Meta Debug APK",
-                "Install Meta Debug APK",
+                "Build Debug APK",
+                "Install Debug APK",
                 "Launch App on Device"
             ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Build, Install and Launch Alpha Debug",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Build Alpha Debug APK",
-                "Install Alpha Debug APK",
-                "Launch App on Device"
-            ],
-            "group": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
             "problemMatcher": []
         },
         {
@@ -329,12 +256,39 @@
             }
         },
         {
+            "label": "ADB Clear Logcat",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "logcat",
+                "-c"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
             "label": "List Connected Devices",
             "type": "shell",
             "command": "adb",
             "args": [
                 "devices",
                 "-l"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Check Installed APK",
+            "type": "shell",
+            "command": "adb",
+            "args": [
+                "shell",
+                "pm",
+                "list",
+                "packages",
+                "|",
+                "grep",
+                "clash"
             ],
             "group": "none",
             "problemMatcher": []

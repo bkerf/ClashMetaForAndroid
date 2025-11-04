@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(git add:*)",
+      "Bash(set JAVA_HOME=E:Program FilesAndroidAndroid Studiojbr:*)",
+      "Bash(gradlew.bat tasks:*)",
+      "Bash(./gradlew tasks:*)",
+      "Bash(export JAVA_HOME=\"E:\\Program Files\\Android\\Android Studio\\jbr\")",
+      "Bash(./gradlew assembleMetaDebug:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
